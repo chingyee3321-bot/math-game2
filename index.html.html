@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>小三數學：除法分物大挑戰 🧺</title>
+  <style>
+    :root {
+      --bg-top: #e0f7fa;
+      --bg-mid: #fffde7;
+      --bg-bottom: #fce4ec;
+      --primary: #ff7043;
+      --primary-dark: #d84315;
+      --secondary: #26a69a;
+      --secondary-dark: #00796b;
+      --accent: #ffca28;
+      --purple: #7e57c2;
+      --wicker-dark: #5c3310;
+      --wicker-mid: #8d5524;
+      --wicker-light: #c68b59;
+      --card-bg: #ffffff;
+      --text-main: #37474f;
+      --text-muted: #607d8b;
+      --shadow-card: 0 10px 26px rgba(0, 0, 0, 0.08);
+      --radius-lg: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      background: linear-gradient(155deg, var(--bg-top) 0%, var(--bg-mid) 50%, var(--bg-bottom) 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      font-size: 28px;
+      animation: floatIcon 2.4s infinite ease-in-out;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.18rem;
+      font-weight: 900;
+      color: #d84315;
+    }
+
+    .badge {
+      background: #fff3e0;
+      color: #ef6c00;
+      border: 1.5px solid #ffb74d;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Cartoon Buttons */
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 8px 14px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.16);
+      font-family: inherit;
+    }
+
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.16);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #ff8a65, #ff7043);
+      color: #fff;
+      box-shadow: 0 4px 0 #d84315;
+    }
+    .btn-primary:active { box-shadow: 0 1px 0 #d84315; }
+
+    .btn-secondary {
+      background: linear-gradient(180deg, #4db6ac, #26a69a);
+      color: #fff;
+      box-shadow: 0 4px 0 #00796b;
+    }
+    .btn-secondary:active { box-shadow: 0 1px 0 #00796b; }
+
+    .btn-accent {
+      background: linear-gradient(180deg, #ffd54f, #ffca28);
+      color: #4e342e;
+      box-shadow: 0 4px 0 #f57f17;
+    }
+    .btn-accent:active { box-shadow: 0 1px 0 #f57f17; }
+
+    .btn-purple {
+      background: linear-gradient(180deg, #9575cd, #7e57c2);
+      color: #fff;
+      box-shadow: 0 4px 0 #4527a0;
+    }
+    .btn-purple:active { box-shadow: 0 1px 0 #4527a0; }
+
+    .btn-ghost {
+      background: #eceff1;
+      color: #455a64;
+      box-shadow: 0 3px 0 #b0bec5;
+    }
+
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 10px;
+    }
+
+    .btn-lg {
+      padding: 13px 24px;
+      font-size: 1.1rem;
+      border-radius: 18px;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      animation: fadeIn 0.28s ease;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.75); opacity: 0; }
+      75% { transform: scale(1.06); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      border: 3px solid #fff;
+    }
+
+    /* Login Screen */
+    .login-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 20px;
+      align-items: stretch;
+      margin: auto 0;
+    }
+
+    @media (max-width: 820px) {
+      .login-grid { grid-template-columns: 1fr; }
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, #fff8e1 0%, #e0f2f1 100%);
+      border: 3px dashed #c68b59;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .form-group { margin-bottom: 14px; }
+
+    .form-label {
+      display: block;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #37474f;
+      font-size: 0.95rem;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    select, input[type="number"], input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 2.5px solid #cfd8dc;
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #263238;
+      background: #fafafa;
+      outline: none;
+      font-family: inherit;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .level-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 520px) {
+      .level-cards { grid-template-columns: 1fr; }
+    }
+
+    .level-option {
+      border: 3px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 11px 9px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafafa;
+    }
+
+    .level-option.selected {
+      border-color: #ff7043;
+      background: #fff3e0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(255, 112, 67, 0.2);
+    }
+
+    .level-option .lv-icon { font-size: 1.55rem; display: block; margin-bottom: 3px; }
+    .level-option .lv-title { font-weight: 900; font-size: 1rem; color: #37474f; }
+    .level-option .lv-desc { font-size: 0.74rem; color: #607d8b; margin-top: 2px; line-height: 1.35; }
+
+    .rank-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .rank-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: #f5f5f5;
+    }
+
+    /* Game Screen HUD */
+    .hud-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #fff;
+      padding: 10px 16px;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      margin-bottom: 8px;
+    }
+
+    .hud-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      background: #f1f8e9;
+      color: #33691e;
+    }
+
+    .hud-pill.score { background: #fff8e1; color: #e65100; }
+    .hud-pill.student { background: #f3e5f5; color: #4a148c; }
+    .hud-pill.streak { background: #e1f5fe; color: #0277bd; }
+
+    /* Mode Switcher & Manual Equation Bar */
+    .mode-bar {
+      background: #ffffff;
+      border: 2.5px solid #b2dfdb;
+      border-radius: 16px;
+      padding: 8px 14px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .mode-tabs {
+      display: inline-flex;
+      background: #eceff1;
+      padding: 4px;
+      border-radius: 12px;
+      gap: 4px;
+    }
+
+    .mode-tab {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 9px;
+      font-weight: 800;
+      font-size: 0.84rem;
+      cursor: pointer;
+      background: transparent;
+      color: #546e7a;
+      font-family: inherit;
+    }
+
+    .mode-tab.active {
+      background: #26a69a;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(38, 166, 154, 0.35);
+    }
+
+    .manual-builder {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .manual-builder.show {
+      display: flex;
+    }
+
+    .manual-num {
+      width: 84px !important;
+      padding: 6px 8px !important;
+      text-align: center;
+      font-size: 1rem !important;
+      border: 2px solid #26a69a !important;
+      border-radius: 10px !important;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #eceff1;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff8a65, #ffca28, #26a69a);
+      width: 20%;
+      transition: width 0.35s ease;
+    }
+
+    /* Story Box */
+    .story-box {
+      background: linear-gradient(135deg, #fffde7 0%, #fff3e0 100%);
+      border: 3px solid #ffe082;
+      border-radius: 20px;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .story-text {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #3e2723;
+      line-height: 1.5;
+    }
+
+    .story-highlight {
+      display: inline-block;
+      background: #ff7043;
+      color: #fff;
+      padding: 1px 10px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      margin: 0 3px;
+    }
+
+    .equation-badge {
+      background: #ffffff;
+      border: 3px solid #26a69a;
+      color: #00695c;
+      padding: 8px 16px;
+      border-radius: 16px;
+      font-size: 1.36rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 0 #80cbc4;
+    }
+
+    /* Workspace: Left Supply + Right Brown Wicker Baskets */
+    .workspace {
+      display: grid;
+      grid-template-columns: 1.05fr 1.65fr;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 860px) {
+      .workspace { grid-template-columns: 1fr; }
+    }
+
+    .pool-area {
+      background: #ffffff;
+      border: 3px dashed #90caf9;
+      border-radius: 20px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 230px;
+    }
+
+    .pool-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pool-title {
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: #1565c0;
+    }
+
+    .supply-breakdown {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #0277bd;
+      background: #e1f5fe;
+      padding: 5px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .pool-tools {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .counter-pool {
+      flex: 1;
+      background: #f5fbff;
+      border-radius: 14px;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 10px;
+      min-height: 140px;
+      transition: background 0.2s;
+    }
+
+    .counter-pool.drag-over {
+      background: #e1f5fe;
+      outline: 3px solid #29b6f6;
+    }
+
+    /* Draggable Manipulatives: 100-Crate, 10-Bag, 1-Loose */
+    .piece {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      transition: transform 0.15s, box-shadow 0.15s;
+      touch-action: none;
+      position: relative;
+      animation: popIn 0.2s ease;
+    }
+
+    .piece:active {
+      cursor: grabbing;
+      transform: scale(1.08);
+    }
+
+    /* 1-Item Loose Piece (散裝 1個) */
+    .piece-one {
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      border: 2.5px solid #ffcc80;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      box-shadow: 0 3px 0 #ffb74d;
+    }
+
+    /* 10-Item Lot/Pack (每10個一袋) */
+    .piece-ten {
+      background: linear-gradient(180deg, #fffde7 0%, #ffe082 100%);
+      border: 2.5px solid #f57c00;
+      border-radius: 14px;
+      padding: 5px 7px;
+      flex-direction: column;
+      gap: 3px;
+      box-shadow: 0 4px 0 #e65100;
+      min-width: 96px;
+    }
+
+    .ten-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      font-size: 0.76rem;
+      line-height: 1;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 3px 4px;
+      border-radius: 8px;
+    }
+
+    /* 100-Item Crate (每100個一箱 - 供三位數除法使用) */
+    .piece-hundred {
+      background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%);
+      border: 2.5px solid #c2185b;
+      border-radius: 14px;
+      padding: 6px 8px;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 4px 0 #880e4f;
+      min-width: 112px;
+    }
+
+    .hundred-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-weight: 900;
+      color: #ad1457;
+      font-size: 0.88rem;
+    }
+
+    .lot-label-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 4px;
+    }
+
+    .ten-tag {
+      background: #ef6c00;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 1px 6px;
+      border-radius: 6px;
+    }
+
+    .hundred-tag {
+      background: #c2185b;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 1px 6px;
+      border-radius: 6px;
+    }
+
+    .unpack-mini-btn {
+      background: #ffffff;
+      border: 1.5px solid #5d4037;
+      color: #3e2723;
+      font-size: 0.66rem;
+      font-weight: 900;
+      padding: 1px 5px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .unpack-mini-btn:hover {
+      background: #ffe0b2;
+    }
+
+    /* ================= BROWN WICKER BASKETS (啡色藤籃) ================= */
+    .baskets-area {
+      background: #fffdf9;
+      border: 3px solid #d7ccc8;
+      border-radius: 20px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .baskets-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .baskets-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      flex: 1;
+      align-items: flex-end;
+      padding-top: 6px;
+    }
+
+    .wicker-basket-wrap {
+      flex: 1 1 140px;
+      max-width: 215px;
+      min-width: 132px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.18s ease;
+    }
+
+    .wicker-basket-wrap:hover {
+      transform: translateY(-3px);
+    }
+
+    .wicker-basket-wrap.drag-over {
+      transform: scale(1.05);
+    }
+
+    /* Arched Woven Handle */
+    .wicker-handle {
+      width: 68%;
+      height: 22px;
+      border: 6px solid #8d5524;
+      border-bottom: none;
+      border-radius: 50px 50px 0 0;
+      background: transparent;
+      box-shadow: inset 0 2px 0 #c68b59, 0 -2px 0 #5c3310;
+      margin-bottom: -3px;
+      z-index: 1;
+    }
+
+    /* Braided Rim */
+    .wicker-rim {
+      width: 104%;
+      height: 16px;
+      border-radius: 999px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #a66e38,
+        #a66e38 6px,
+        #734116 6px,
+        #734116 12px
+      );
+      border: 2.5px solid #5c3310;
+      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+      z-index: 3;
+    }
+
+    /* Tapered Woven Wicker Body */
+    .wicker-body {
+      width: 96%;
+      min-height: 140px;
+      border: 3px solid #5c3310;
+      border-top: none;
+      border-radius: 6px 6px 28px 28px;
+      padding: 8px 6px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      background-color: #b87a44;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(92, 51, 16, 0.28) 0px,
+          rgba(92, 51, 16, 0.28) 3px,
+          transparent 3px,
+          transparent 14px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(235, 195, 145, 0.35) 0px,
+          rgba(235, 195, 145, 0.35) 5px,
+          rgba(122, 68, 24, 0.35) 5px,
+          rgba(122, 68, 24, 0.35) 10px
+        );
+      box-shadow:
+        inset 0 -10px 18px rgba(62, 32, 9, 0.42),
+        0 8px 14px rgba(92, 51, 16, 0.22);
+    }
+
+    .wicker-basket-wrap.drag-over .wicker-body {
+      box-shadow:
+        inset 0 0 0 4px #ffca28,
+        0 10px 20px rgba(255, 193, 7, 0.45);
+    }
+
+    .basket-label-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 5px;
+      gap: 4px;
+    }
+
+    .basket-title-tag {
+      background: #4e2a0c;
+      color: #fff8e1;
+      font-size: 0.76rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .basket-count-tag {
+      background: #fff8e1;
+      color: #5c3310;
+      border: 1.5px solid #5c3310;
+      font-size: 0.78rem;
+      font-weight: 900;
+      padding: 1px 8px;
+      border-radius: 999px;
+    }
+
+    /* Inner soft cloth liner holding items inside the basket */
+    .basket-liner {
+      width: 100%;
+      flex: 1;
+      min-height: 88px;
+      background: rgba(255, 251, 240, 0.9);
+      border: 2px dashed #8d5524;
+      border-radius: 10px 10px 20px 20px;
+      padding: 5px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .basket-liner .piece-one {
+      width: 28px;
+      height: 28px;
+      font-size: 1rem;
+    }
+
+    .basket-liner .piece-ten {
+      min-width: 68px;
+      padding: 3px 4px;
+    }
+
+    .basket-liner .piece-hundred {
+      min-width: 78px;
+      padding: 3px 5px;
+    }
+
+    .basket-liner .ten-mini-grid {
+      font-size: 0.58rem;
+      padding: 2px;
+    }
+
+    .basket-sub-detail {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #fff8e1;
+      text-shadow: 0 1px 2px #3e1f07;
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    /* Answer Submission Bar */
+    .answer-panel {
+      background: #ffffff;
+      border: 3px solid #ce93d8;
+      border-radius: 20px;
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .answer-inputs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .ans-box {
+      width: 86px !important;
+      text-align: center;
+      font-size: 1.38rem !important;
+      padding: 7px !important;
+      border: 3px solid #ab47bc !important;
+      border-radius: 14px !important;
+      background: #f3e5f5 !important;
+      color: #4a148c !important;
+    }
+
+    /* Feedback Overlay */
+    .feedback-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(38, 50, 56, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .feedback-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+
+    .feedback-card {
+      background: #fff;
+      border-radius: 26px;
+      padding: 24px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+      border: 4px solid #ffd54f;
+      animation: popIn 0.28s ease;
+    }
+
+    /* Round Summary & Certificate */
+    .summary-box {
+      background: linear-gradient(135deg, #fff8e1 0%, #f3e5f5 100%);
+      border: 3px solid #ce93d8;
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 14px;
+      width: 100%;
+      max-width: 840px;
+    }
+
+    .cert-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    #certCanvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      border: 4px solid #fff;
+    }
+
+    /* Teacher Dashboard */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      background: linear-gradient(135deg, #ffffff, #f5f7fa);
+      border-radius: 16px;
+      padding: 14px;
+      border: 2px solid #e0e0e0;
+      text-align: center;
+    }
+
+    .stat-box .num { font-size: 1.65rem; font-weight: 900; color: #d84315; }
+    .stat-box .lbl { font-size: 0.82rem; font-weight: 700; color: #607d8b; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 2px solid #eceff1;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    th {
+      background: #eceff1;
+      color: #37474f;
+      font-weight: 900;
+      padding: 10px 12px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-top: 1px solid #eceff1;
+      white-space: nowrap;
+    }
+
+    tr:hover td { background: #fffde7; }
+
+    /* PIN Lock Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.58);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 120;
+      padding: 16px;
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.28);
+      animation: popIn 0.25s ease;
+    }
+
+    .pin-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      max-width: 240px;
+      margin: 10px auto 14px;
+    }
+
+    .pin-key {
+      padding: 10px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      border-radius: 12px;
+      border: 2px solid #d1c4e9;
+      background: #f3e5f5;
+      color: #4a148c;
+      cursor: pointer;
+    }
+    .pin-key:active { background: #ce93d8; }
+
+    #dragGhost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%) scale(1.12);
+      display: none;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+    }
+
+    .hint-tip {
+      font-size: 0.78rem;
+      color: #546e7a;
+      background: #eceff1;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="brand">
+      <span class="brand-icon">🧺</span>
+      <div>
+        <h1>小三數學：除法分物大挑戰 <span class="badge">操作互動版</span></h1>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-purple btn-sm" onclick="openTeacherAuth()" title="老師專屬密碼鎖後台">
+        👩‍🏫 老師後台
+      </button>
+      <button class="btn btn-ghost btn-sm" id="soundToggleBtn" onclick="toggleSound()">
+        🔊 音效開
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== SCREEN 1: LOGIN & START ==================== -->
+    <section id="screen-login" class="screen active">
+      <div class="login-grid">
+        <!-- Left: Login Form -->
+        <div class="card">
+          <div class="hero-banner">
+            <div style="font-size:2.3rem; letter-spacing:8px; margin-bottom:4px;">🍎 🧺 🍊 🧺 🍪</div>
+            <h2 style="margin:0 0 6px; color:#5c3310; font-size:1.35rem;">小三數學：兩位數／三位數除以一位數分物</h2>
+            <p style="margin:0; font-size:0.9rem; color:#6d4c41;">
+              把「百位箱」、「十位袋」和「散裝食物」平均放進<strong>啡色藤籃</strong>，每 <strong>5 題</strong>結算一次榮譽評級！
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">1️⃣ 請輸入你的班別與學號：</label>
+            <div class="input-row">
+              <select id="studentClass" aria-label="班別">
+                <option value="3A">3A 班</option>
+                <option value="3B">3B 班</option>
+                <option value="3C">3C 班</option>
+                <option value="3D">3D 班</option>
+                <option value="3E">3E 班</option>
+              </select>
+              <input type="number" id="studentNo" min="1" max="45" placeholder="學號 (1-40)" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">2️⃣ 選擇預設難度（進入後亦可隨時手動輸入算式）：</label>
+            <div class="level-cards" id="levelSelector">
+            <div class="level-option selected" data-level="基礎" onclick="selectLevel(this)">
+              <span class="lv-icon">🌱</span>
+              <div class="lv-title">基礎</div>
+              <div class="lv-desc">兩位數÷一位數（乘數表以外）<br>含豐富餘數與雙題型</div>
+            </div>
+            <div class="level-option" data-level="中等" onclick="selectLevel(this)">
+              <span class="lv-icon">🌟</span>
+              <div class="lv-title">中等</div>
+              <div class="lv-desc">較大兩位數÷一位數<br>75%以上有餘數綜合挑戰</div>
+            </div>
+            <div class="level-option" data-level="進階" onclick="selectLevel(this)">
+              <span class="lv-icon">🚀</span>
+              <div class="lv-title">進階</div>
+              <div class="lv-desc">三位數÷一位數進階挑戰<br>百位箱／十位袋拆解分物</div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%; margin-top:6px;" onclick="startGame()">
+            🎮 開始除法分物挑戰
+          </button>
+        </div>
+
+        <!-- Right: Rules & 5-Question Round Rank Guide -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <h3 style="margin-top:0; color:#5c3310; display:flex; align-items:center; gap:6px;">
+              📖 分物玩法與評級規則
+            </h3>
+            <ul style="padding-left:20px; margin:8px 0 14px; font-size:0.89rem; line-height:1.65; color:#455a64;">
+            <li><strong>雙題型多變情境：</strong>
+              <br>① <b>平均分（等分除）</b>：預設擺好幾個啡色藤籃，把物件平均放入各籃，剩下的留在桌面作餘數。
+              <br>② <b>每份幾個（包含除）</b>：例如「32 隻雞蛋，每 6 隻裝一盒」，點擊「➕ 新增一個藤籃/盒子」裝滿規定數量，不足一盒的留在桌面作餘數！
+            </li>
+            <li><strong>位值組合與退位拆袋：</strong>數量自動擺放成<strong>百位箱(100)</strong>、<strong>十位袋(10)</strong>與<strong>散裝(1)</strong>，按<strong>「拆開」</strong>可換成下一級小單位繼續分物。</li>
+          </ul>
+
+            <div style="font-weight:900; font-size:0.92rem; color:#37474f;">🏆 每 5 題結算榮譽評級：</div>
+            <div class="rank-list">
+              <div class="rank-chip" style="background:#efebe9; color:#5d4037;">🥉 青銅：答對 3 題</div>
+              <div class="rank-chip" style="background:#fff8e1; color:#ef6c00;">🥇 黃金：答對 4 題</div>
+              <div class="rank-chip" style="background:#e1f5fe; color:#0277bd;">💎 鑽石：答對 5 題全對</div>
+              <div class="rank-chip" style="background:#f3e5f5; color:#6a1b9a;">👑 王者：連續 2 次 5 題全對</div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px; background:#e8f5e9; border:2px solid #a5d6a7; padding:12px; border-radius:14px; text-align:center;">
+            <div style="font-size:0.85rem; font-weight:800; color:#2e7d32;">
+              🎓 每完成 5 題回合即可生成並下載專屬鼓勵獎狀！
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 2: INTERACTIVE GAMEPLAY ==================== -->
+    <section id="screen-game" class="screen">
+      <!-- Top HUD -->
+      <div class="hud-bar">
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <span class="hud-pill student" id="hudStudent">👤 3A 班 1 號</span>
+          <span class="hud-pill" id="hudLevel">🌱 基礎</span>
+          <span class="hud-pill streak" id="hudStreak">🔥 連續全對回合：0 次</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <span class="hud-pill" style="background:#fce4ec; color:#ad1457;">
+            📝 本回合：第 <strong id="hudQNum">1</strong> / 5 題
+          </span>
+          <span class="hud-pill score">
+            ⭐ 本回合答對：<strong id="hudRoundCorrect">0</strong> 題（總分 <strong id="hudScore">0</strong>）
+          </span>
+        </div>
+      </div>
+
+      <!-- Mode Switcher & Manual Equation Input Bar -->
+      <div class="mode-bar">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-weight:900; font-size:0.86rem; color:#00695c;">出題方式：</span>
+          <div class="mode-tabs">
+            <button type="button" class="mode-tab active" id="tabAuto" onclick="switchQuestionMode('auto')">🎲 自動生成題目</button>
+            <button type="button" class="mode-tab" id="tabManual" onclick="switchQuestionMode('manual')">✏️ 手動輸入橫式</button>
+          </div>
+        </div>
+
+        <div class="manual-builder" id="manualBuilder">
+          <span style="font-weight:800; font-size:0.86rem;">題型：</span>
+          <select id="manualProblemType" style="width:auto; padding:5px 10px; font-size:0.86rem; border:2px solid #26a69a; border-radius:10px;">
+            <option value="sharing">平均分（等分除）</option>
+            <option value="grouping">每份幾個（包含除）</option>
+          </select>
+          <input type="number" id="manualDividend" class="manual-num" min="10" max="999" value="32" placeholder="被除數" />
+          <strong style="font-size:1.15rem; color:#00695c;">÷</strong>
+          <input type="number" id="manualDivisor" class="manual-num" min="2" max="9" value="6" placeholder="除數" />
+          <button type="button" class="btn btn-secondary btn-sm" onclick="applyManualQuestion()">✨ 建立題目</button>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <!-- Story & Equation Prompt -->
+      <div class="story-box">
+        <div class="story-text" id="questionStory">
+          把 <span class="story-highlight">42</span> 個🍎平均分進 <span class="story-highlight">3</span> 個啡色藤籃，每個藤籃分到多少個？
+        </div>
+        <div class="equation-badge" id="questionEq">
+          42 ÷ 3 = ?
+        </div>
+      </div>
+
+      <!-- Hands-On Manipulative Workspace -->
+      <div class="workspace">
+        <!-- Left: Supply Area (100-Crates + 10-Bags + Loose Singles) -->
+        <div class="pool-area">
+          <div class="pool-header">
+            <span class="pool-title">📦 食物供應區 (剩餘 <strong id="poolRemainCount">0</strong> 個)</span>
+          </div>
+          <div class="supply-breakdown" id="supplyBreakdown">
+            供應區：2 袋(每袋10個) ＋ 4 個散裝
+          </div>
+          <div class="pool-tools">
+            <button type="button" class="btn btn-purple btn-sm" id="btnUnpackHundred" style="display:none;" onclick="unpackOneHundred()" title="把1箱百個裝拆成10袋十個裝">
+              📦 拆開1箱 (變10袋)
+            </button>
+            <button type="button" class="btn btn-accent btn-sm" id="btnUnpackTen" onclick="unpackOneTen()" title="把1袋十個裝拆成10個散裝">
+              ✂️ 拆開1袋 (變10散裝)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="autoDealOneRound()" title="每個藤籃輪流派1份">
+              ✨ 輪流派1份
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="resetManipulatives()" title="全部放回供應區">
+              ↩️ 清空重分
+            </button>
+          </div>
+
+          <div class="counter-pool" id="counterPool" ondragover="handleDragOver(event)" ondrop="handleDropToPool(event)">
+            <!-- Pieces injected dynamically -->
+          </div>
+
+          <div style="margin-top:8px;">
+            <span class="hint-tip">💡 拖拉整箱/整袋/散裝到右邊啡色藤籃（點擊籃內物件可放回）</span>
+          </div>
+        </div>
+
+        <!-- Right: Brown Wicker Baskets Area -->
+        <div class="baskets-area">
+          <div class="baskets-header">
+            <span id="basketsAreaTitle" style="font-weight:900; font-size:0.95rem; color:#5c3310;">
+              🧺 啡色藤籃分物區 (請確保每個藤籃分得一樣多！)
+            </span>
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnAddBasket" style="display:none;" onclick="addGroupingBasket()">
+                ➕ 新增一個藤籃/盒子
+              </button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnRemoveEmptyBasket" style="display:none;" onclick="removeEmptyBasket()">
+                ➖ 移除空籃
+              </button>
+              <span id="equalStatusBadge" style="font-size:0.8rem; font-weight:800; padding:3px 10px; border-radius:999px; background:#fff3e0; color:#ef6c00;">
+                尚未分物完成
+              </span>
+            </div>
+          </div>
+          <div class="baskets-grid" id="basketsGrid">
+            <!-- Brown wicker baskets injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Answer Submission Bar -->
+      <div class="answer-panel">
+        <div class="answer-inputs">
+          <span id="quotientPromptLabel">每個藤籃分到：</span>
+          <input type="number" id="inputQuotient" class="ans-box" min="0" max="999" placeholder="?" inputmode="numeric" />
+          <span id="quotientUnit">個</span>
+
+          <div id="remainderGroup" style="display:flex; align-items:center; gap:8px;">
+            <span style="color:#6a1b9a;">…… 還餘：</span>
+            <input type="number" id="inputRemainder" class="ans-box" min="0" max="9" placeholder="0" inputmode="numeric" />
+            <span id="remainderUnit">個</span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button type="button" class="btn btn-ghost" onclick="quitToHome()">🏠 離開</button>
+          <button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer()">
+            ✅ 提交答案
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 3: 5-QUESTION ROUND SUMMARY & CERTIFICATE ==================== -->
+    <section id="screen-complete" class="screen">
+      <div class="card cert-container">
+        <div class="summary-box">
+          <div id="roundBadgeHero" style="font-size:3rem; margin-bottom:4px;">💎</div>
+          <h2 id="roundSummaryTitle" style="margin:0 0 6px; color:#d84315; font-size:1.45rem;">
+            第 1 回合（5 題）總結：獲得【鑽石級】！
+          </h2>
+          <p id="roundSummaryDetail" style="margin:0; color:#455a64; font-size:0.95rem; font-weight:700;">
+            本回合答對 5 / 5 題！再連續 1 次 5 題全對即可晉升最高榮譽【👑 王者級】！
+          </p>
+        </div>
+
+        <!-- Generated Encouragement Certificate Canvas -->
+        <canvas id="certCanvas" width="840" height="560"></canvas>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:4px;">
+          <button type="button" class="btn btn-primary btn-lg" onclick="continueNextRound()">
+            🚀 繼續下一回合 (5題衝擊王者)
+          </button>
+          <button type="button" class="btn btn-secondary btn-lg" onclick="downloadCertificate()">
+            💾 下載電子獎狀 (PNG)
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="restartFromLogin()">
+            🔄 重新開始
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 4: TEACHER DASHBOARD ==================== -->
+    <section id="screen-teacher" class="screen">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+          <div>
+            <h2 style="margin:0; color:#4527a0; display:flex; align-items:center; gap:8px;">
+              👩‍🏫 老師後台數據中心 <span class="badge" style="background:#ede7f6; color:#4527a0; border-color:#b39ddb;">已解鎖</span>
+            </h2>
+            <p style="margin:4px 0 0; font-size:0.85rem; color:#607d8b;">
+              追蹤學生「除法分物」每 5 題回合表現、答對率、連勝次數與最高榮譽評級
+            </p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-accent btn-sm" onclick="seedSampleRecords()">
+              ➕ 載入模擬班級數據
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="exportCsv()">
+              📥 匯出 Excel (CSV)
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="clearAllRecords()">
+              🗑️ 清空紀錄
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="lockAndExitTeacher()">
+              🔒 鎖定並返回
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; align-items:center;">
+          <span style="font-weight:800; font-size:0.88rem;">篩選班別：</span>
+          <select id="filterClass" style="width:auto; padding:6px 12px; font-size:0.9rem;" onchange="renderTeacherDashboard()">
+            <option value="ALL">全部班別</option>
+            <option value="3A">3A 班</option>
+            <option value="3B">3B 班</option>
+            <option value="3C">3C 班</option>
+            <option value="3D">3D 班</option>
+            <option value="3E">3E 班</option>
+          </select>
+
+          <span style="font-weight:800; font-size:0.88rem;">篩選難度：</span>
+          <select id="filterLevel" style="width:auto; padding:6px 12px; font-size:0.9rem;" onchange="renderTeacherDashboard()">
+            <option value="ALL">全部難度</option>
+            <option value="基礎">基礎</option>
+            <option value="中等">中等</option>
+            <option value="進階">進階</option>
+          </select>
+        </div>
+
+        <!-- Summary KPIs -->
+        <div class="stats-grid" id="teacherStatsGrid"></div>
+
+        <!-- Rank Distribution Bar -->
+        <div id="rankBreakdownBar" style="background:#f8f9fa; border-radius:14px; padding:12px; margin-bottom:16px; border:1.5px solid #e0e0e0;"></div>
+
+        <!-- Detailed Student Records Table -->
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>班別</th>
+                <th>學號</th>
+                <th>挑戰程度</th>
+                <th>回合答對</th>
+                <th>答對率</th>
+                <th>連續全對回合</th>
+                <th>獲得評級</th>
+                <th>完成時間</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Immediate Feedback Modal -->
+  <div class="feedback-overlay" id="feedbackOverlay">
+    <div class="feedback-card" id="feedbackCard">
+      <div id="fbEmoji" style="font-size:3.5rem; margin-bottom:6px;">🎉</div>
+      <h3 id="fbTitle" style="margin:0 0 8px; font-size:1.45rem; color:#2e7d32;">太棒了！答對了！</h3>
+      <p id="fbDetail" style="margin:0 0 16px; font-size:0.98rem; color:#455a64; line-height:1.55;"></p>
+      <button type="button" class="btn btn-primary btn-lg" style="width:100%;" id="fbNextBtn" onclick="nextQuestion()">
+        下一題 ➡️
+      </button>
+    </div>
+  </div>
+
+  <!-- Teacher PIN Lock Modal (Password: 9898) -->
+  <div class="modal-backdrop" id="pinModal">
+    <div class="modal-box">
+      <div style="font-size:2.6rem; margin-bottom:4px;">🔐</div>
+      <h3 style="margin:0 0 4px; color:#4527a0;">老師後台已上鎖</h3>
+      <p style="margin:0 0 10px; font-size:0.86rem; color:#607d8b;">
+        請輸入 4 位數字管理密碼（9898）以解鎖後台數據
+      </p>
+      <input type="password" id="teacherPinInput" maxlength="6" placeholder="••••" style="text-align:center; letter-spacing:6px; font-size:1.3rem; max-width:200px; margin:0 auto;" onkeydown="if(event.key==='Enter') verifyTeacherPin()" />
+      <div id="pinErrorMsg" style="color:#d32f2f; font-size:0.82rem; font-weight:800; min-height:20px; margin-top:4px;"></div>
+
+      <!-- Touch-friendly Numeric Keypad -->
+      <div class="pin-keypad">
+        <button type="button" class="pin-key" onclick="appendPin('1')">1</button>
+        <button type="button" class="pin-key" onclick="appendPin('2')">2</button>
+        <button type="button" class="pin-key" onclick="appendPin('3')">3</button>
+        <button type="button" class="pin-key" onclick="appendPin('4')">4</button>
+        <button type="button" class="pin-key" onclick="appendPin('5')">5</button>
+        <button type="button" class="pin-key" onclick="appendPin('6')">6</button>
+        <button type="button" class="pin-key" onclick="appendPin('7')">7</button>
+        <button type="button" class="pin-key" onclick="appendPin('8')">8</button>
+        <button type="button" class="pin-key" onclick="appendPin('9')">9</button>
+        <button type="button" class="pin-key" style="background:#ffebee; color:#c62828;" onclick="clearPin()">清除</button>
+        <button type="button" class="pin-key" onclick="appendPin('0')">0</button>
+        <button type="button" class="pin-key" style="background:#e8f5e9; color:#2e7d32;" onclick="verifyTeacherPin()">解鎖</button>
+      </div>
+
+      <button type="button" class="btn btn-ghost btn-sm" onclick="closePinModal()">取消返回</button>
+    </div>
+  </div>
+
+  <!-- Touch Drag Ghost Element -->
+  <div id="dragGhost"></div>
+
+  <script>
+    /* =========================================================================
+       1. WEB AUDIO API SOUND EFFECTS
+       ========================================================================= */
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playTone(type) {
+      if (!soundEnabled) return;
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      if (type === "pop") {
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(840, now + 0.08);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+        osc.start(now);
+        osc.stop(now + 0.09);
+      } else if (type === "unpack") {
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(780, now + 0.16);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      } else if (type === "correct") {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((freq, idx) => {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = "triangle";
+          o.frequency.setValueAtTime(freq, now + idx * 0.08);
+          g.gain.setValueAtTime(0.2, now + idx * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.22);
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start(now + idx * 0.08);
+          o.stop(now + idx * 0.08 + 0.22);
+        });
+      } else if (type === "wrong") {
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(160, now + 0.25);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+        osc.start(now);
+        osc.stop(now + 0.28);
+      } else if (type === "fanfare") {
+        const melody = [523.25, 523.25, 659.25, 783.99, 659.25, 1046.5];
+        const times = [0, 0.12, 0.24, 0.36, 0.52, 0.66];
+        melody.forEach((freq, i) => {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = "triangle";
+          o.frequency.setValueAtTime(freq, now + times[i]);
+          g.gain.setValueAtTime(0.22, now + times[i]);
+          g.gain.exponentialRampToValueAtTime(0.01, now + times[i] + 0.25);
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start(now + times[i]);
+          o.stop(now + times[i] + 0.25);
+        });
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById("soundToggleBtn").textContent = soundEnabled ? "🔊 音效開" : "🔇 靜音";
+    }
+
+    /* =========================================================================
+       2. QUESTION BANK (AUTO + MANUAL HORIZONTAL EQUATION) & GAME STATE
+       ========================================================================= */
+    const STORAGE_KEY = "grade3_division_5q_records_v3";
+    const TEACHER_PIN = "9898";
+    const QUESTIONS_PER_ROUND = 5;
+
+    const ITEM_THEMES = [
+      { emoji: "🥚", name: "雞蛋", unit: "隻", container: "盒" },
+      { emoji: "🍎", name: "蘋果", unit: "個", container: "籃" },
+      { emoji: "🍊", name: "甜橙", unit: "個", container: "袋" },
+      { emoji: "🍓", name: "士多啤梨", unit: "粒", container: "盒" },
+      { emoji: "🍪", name: "曲奇", unit: "塊", container: "罐" },
+      { emoji: "✏️", name: "鉛筆", unit: "枝", container: "捆" },
+      { emoji: "🧁", name: "紙杯蛋糕", unit: "件", container: "盒" }
+    ];
+
+    // 基礎：兩位數除以一位數（乘數表以外，約 75% 以上有餘數）
+    const BASIC_POOL = [
+      [32, 6], [47, 3], [53, 4], [43, 3], [58, 4], [67, 5], [73, 6], [49, 4],
+      [38, 3], [51, 4], [62, 5], [79, 6], [85, 7], [46, 3], [59, 5], [74, 6],
+      [42, 3], [56, 4], [65, 5], [72, 6]
+    ];
+
+    // 中等：較大兩位數除以一位數（高比例有餘數，商數可達 11-24）
+    const MEDIUM_POOL = [
+      [68, 5], [83, 6], [94, 7], [77, 4], [89, 6], [95, 7], [86, 5], [91, 4],
+      [75, 4], [82, 3], [97, 8], [88, 5], [93, 6], [79, 3], [98, 8], [85, 6],
+      [84, 6], [96, 8], [91, 7], [78, 6]
+    ];
+
+    // 進階：三位數除以一位數（約 75% 以上有餘數，訓練百位箱拆十位袋分物）
+    const ADVANCED_3DIGIT_POOL = [
+      [146, 4], [235, 6], [127, 3], [145, 4], [218, 3], [253, 5], [169, 4], [326, 3],
+      [158, 5], [247, 6], [314, 4], [185, 6], [269, 4], [341, 5], [197, 3], [283, 7],
+      [126, 3], [248, 4], [315, 5], [246, 2]
+    ];
+
+    let state = {
+      studentClass: "3A",
+      studentNo: "1",
+      level: "基礎",
+      questionMode: "auto", // 'auto' | 'manual'
+      roundNumber: 1,
+      roundQuestions: [],
+      qIndexInRound: 0,      // 0..4
+      roundCorrect: 0,
+      totalScore: 0,
+      consecutivePerfectRounds: 0,
+      currentQ: null,
+      poolPieces: [],        // { id, value: 100 | 10 | 1 }
+      baskets: [],           // array of arrays of { id, value }
+      selectedPieceId: null,
+      nextPieceUid: 1
+    };
+
+    function selectLevel(el) {
+      document.querySelectorAll(".level-option").forEach(opt => opt.classList.remove("selected"));
+      el.classList.add("selected");
+      state.level = el.dataset.level;
+      playTone("pop");
+    }
+
+    function showScreen(screenId) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(screenId).classList.add("active");
+    }
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateRoundQuestions(level) {
+      const list = [];
+      const sourcePool = level === "基礎" ? BASIC_POOL : level === "中等" ? MEDIUM_POOL : ADVANCED_3DIGIT_POOL;
+      const shuffled = [...sourcePool].sort(() => Math.random() - 0.5);
+
+      for (let i = 0; i < QUESTIONS_PER_ROUND; i++) {
+        const [dividend, divisor] = shuffled[i % shuffled.length];
+        // 交替安排「平均分（等分除）」與「每份幾個（包含除）」兩種題型
+        const problemType = (i % 2 === 1) ? "grouping" : "sharing";
+        const theme = (problemType === "grouping" && i === 1)
+          ? ITEM_THEMES[0] // 確保出現如「雞蛋32隻，每6隻一盒」的經典生活情境
+          : ITEM_THEMES[(i + randInt(0, ITEM_THEMES.length - 1)) % ITEM_THEMES.length];
+
+        list.push({
+          dividend,
+          divisor,
+          quotient: Math.floor(dividend / divisor),
+          remainder: dividend % divisor,
+          problemType,
+          theme
+        });
+      }
+      return list;
+    }
+
+    function startGame() {
+      const cls = document.getElementById("studentClass").value;
+      const noVal = document.getElementById("studentNo").value.trim();
+
+      if (!noVal || parseInt(noVal, 10) < 1 || parseInt(noVal, 10) > 60) {
+        alert("請先輸入正確的學號（1 至 45）喔！");
+        document.getElementById("studentNo").focus();
+        return;
+      }
+
+      state.studentClass = cls;
+      state.studentNo = String(parseInt(noVal, 10));
+      state.roundNumber = 1;
+      state.totalScore = 0;
+      state.consecutivePerfectRounds = 0;
+
+      document.getElementById("hudStudent").textContent = `👤 ${state.studentClass} 班 ${state.studentNo} 號`;
+      const lvIcon = state.level === "基礎" ? "🌱" : state.level === "中等" ? "🌟" : "🚀";
+      document.getElementById("hudLevel").textContent = `${lvIcon} ${state.level}`;
+
+      startNewRound();
+      showScreen("screen-game");
+    }
+
+    function startNewRound() {
+      state.roundQuestions = generateRoundQuestions(state.level);
+      state.qIndexInRound = 0;
+      state.roundCorrect = 0;
+      updateHudCounters();
+      loadQuestionObj(state.roundQuestions[0]);
+    }
+
+    function switchQuestionMode(mode) {
+      state.questionMode = mode;
+      document.getElementById("tabAuto").classList.toggle("active", mode === "auto");
+      document.getElementById("tabManual").classList.toggle("active", mode === "manual");
+      document.getElementById("manualBuilder").classList.toggle("show", mode === "manual");
+      playTone("pop");
+
+      if (mode === "auto") {
+        loadQuestionObj(state.roundQuestions[state.qIndexInRound]);
+      }
+    }
+
+    function applyManualQuestion() {
+      const divd = parseInt(document.getElementById("manualDividend").value, 10);
+      const divs = parseInt(document.getElementById("manualDivisor").value, 10);
+      const pType = document.getElementById("manualProblemType").value;
+
+      if (isNaN(divd) || divd < 10 || divd > 999) {
+        alert("被除數請輸入 10 至 999 之間的兩位數或三位數！");
+        return;
+      }
+      if (isNaN(divs) || divs < 2 || divs > 9) {
+        alert("除數請輸入 2 至 9 之間的一位數！");
+        return;
+      }
+
+      const chosenTheme = pType === "grouping"
+        ? ITEM_THEMES[0]
+        : ITEM_THEMES[Math.floor(Math.random() * ITEM_THEMES.length)];
+
+      const customQ = {
+        dividend: divd,
+        divisor: divs,
+        quotient: Math.floor(divd / divs),
+        remainder: divd % divs,
+        problemType: pType,
+        theme: chosenTheme,
+        isManual: true
+      };
+
+      playTone("pop");
+      loadQuestionObj(customQ);
+    }
+
+    function updateHudCounters() {
+      document.getElementById("hudQNum").textContent = state.qIndexInRound + 1;
+      document.getElementById("hudRoundCorrect").textContent = state.roundCorrect;
+      document.getElementById("hudScore").textContent = state.totalScore;
+      document.getElementById("hudStreak").textContent = `🔥 連續全對回合：${state.consecutivePerfectRounds} 次`;
+      document.getElementById("progressFill").style.width = `${((state.qIndexInRound + 1) / QUESTIONS_PER_ROUND) * 100}%`;
+    }
+
+    function loadQuestionObj(q) {
+      state.currentQ = q;
+      updateHudCounters();
+
+      const isGrouping = q.problemType === "grouping";
+      const btnAddBasket = document.getElementById("btnAddBasket");
+      const btnRemoveBasket = document.getElementById("btnRemoveEmptyBasket");
+      const basketsTitle = document.getElementById("basketsAreaTitle");
+      const qLabel = document.getElementById("quotientPromptLabel");
+      const qUnit = document.getElementById("quotientUnit");
+      const rUnit = document.getElementById("remainderUnit");
+
+      if (isGrouping) {
+        // 包含除情境：例如「現有雞蛋 32 隻，每 6 隻一盒，共可分成多少盒，還餘多少隻？」
+        document.getElementById("questionStory").innerHTML =
+          `現有${q.theme.name} <span class="story-highlight">${q.dividend}</span> ${q.theme.unit}${q.theme.emoji}，每 <span class="story-highlight">${q.divisor}</span> ${q.theme.unit}裝成一${q.theme.container}，共可分成多少${q.theme.container}？還餘多少${q.theme.unit}？`;
+        basketsTitle.textContent = `🧺 裝${q.theme.container}分物區 (每${q.theme.container}裝滿 ${q.divisor} ${q.theme.unit}，可按「➕新增」開新${q.theme.container})`;
+        btnAddBasket.style.display = "inline-flex";
+        btnAddBasket.textContent = `➕ 新增一個${q.theme.container}`;
+        btnRemoveBasket.style.display = "inline-flex";
+        qLabel.textContent = `共可分成：`;
+        qUnit.textContent = q.theme.container;
+        rUnit.textContent = q.theme.unit;
+      } else {
+        // 等分除情境：平均分進 N 個啡色藤籃
+        document.getElementById("questionStory").innerHTML =
+          `現有${q.theme.name} <span class="story-highlight">${q.dividend}</span> ${q.theme.unit}${q.theme.emoji}，平均分進 <span class="story-highlight">${q.divisor}</span> 個啡色藤籃，每個藤籃分到多少${q.theme.unit}？還餘多少${q.theme.unit}？`;
+        basketsTitle.textContent = `🧺 啡色藤籃分物區 (請把${q.theme.name}平均分進 ${q.divisor} 個藤籃！)`;
+        btnAddBasket.style.display = "none";
+        btnRemoveBasket.style.display = "none";
+        qLabel.textContent = `每個藤籃分到：`;
+        qUnit.textContent = q.theme.unit;
+        rUnit.textContent = q.theme.unit;
+      }
+
+      document.getElementById("questionEq").textContent = `${q.dividend} ÷ ${q.divisor} = ?`;
+
+      // 始終顯示餘數格，方便學生填寫 0 或實際餘數
+      document.getElementById("remainderGroup").style.display = "flex";
+      document.getElementById("inputRemainder").value = "";
+      document.getElementById("inputRemainder").placeholder = "0";
+      document.getElementById("inputQuotient").value = "";
+
+      resetManipulatives(false);
+    }
+
+    function addGroupingBasket() {
+      const q = state.currentQ;
+      if (q.problemType !== "grouping") return;
+      if (state.baskets.length >= 25) {
+        alert("已經開了 25 個容器囉，請先檢查每個容器是否裝滿規定數量！");
+        return;
+      }
+      state.baskets.push([]);
+      playTone("pop");
+      renderManipulatives();
+    }
+
+    function removeEmptyBasket() {
+      const q = state.currentQ;
+      if (q.problemType !== "grouping" || state.baskets.length <= 1) return;
+      // 優先移除最後一個空藤籃
+      for (let i = state.baskets.length - 1; i >= 0; i--) {
+        if (state.baskets[i].length === 0) {
+          state.baskets.splice(i, 1);
+          playTone("pop");
+          renderManipulatives();
+          return;
+        }
+      }
+      alert("請先點擊籃內物件放回供應區，再移除空籃喔！");
+    }
+
+    /* Group quantity into 100-Crates (百位箱), 10-Bags (十位袋), and 1-Loose (散裝) */
+    function resetManipulatives(playSound = true) {
+      const q = state.currentQ;
+      state.poolPieces = [];
+      // 等分除預設擺好 divisor 個藤籃；包含除預設先擺好 2 個起始藤籃/盒子供學生裝填與新增
+      const initialBasketCount = q.problemType === "grouping" ? Math.min(2, Math.max(1, q.quotient)) : q.divisor;
+      state.baskets = Array.from({ length: initialBasketCount }, () => []);
+      state.selectedPieceId = null;
+
+      const hundreds = Math.floor(q.dividend / 100);
+      const tens = Math.floor((q.dividend % 100) / 10);
+      const ones = q.dividend % 10;
+
+      for (let i = 0; i < hundreds; i++) {
+        state.poolPieces.push({ id: state.nextPieceUid++, value: 100 });
+      }
+      for (let i = 0; i < tens; i++) {
+        state.poolPieces.push({ id: state.nextPieceUid++, value: 10 });
+      }
+      for (let i = 0; i < ones; i++) {
+        state.poolPieces.push({ id: state.nextPieceUid++, value: 1 });
+      }
+
+      if (playSound) playTone("pop");
+      renderManipulatives();
+    }
+
+    /* Unpack one 100-crate into ten 10-bags */
+    function unpackOneHundred(specificPieceId = null) {
+      const idx = specificPieceId !== null
+        ? state.poolPieces.findIndex(p => p.id === specificPieceId && p.value === 100)
+        : state.poolPieces.findIndex(p => p.value === 100);
+      if (idx === -1) return;
+
+      state.poolPieces.splice(idx, 1);
+      for (let i = 0; i < 10; i++) {
+        state.poolPieces.push({ id: state.nextPieceUid++, value: 10 });
+      }
+      state.selectedPieceId = null;
+      playTone("unpack");
+      renderManipulatives();
+    }
+
+    /* Unpack one 10-bag into ten 1-loose pieces */
+    function unpackOneTen(specificPieceId = null) {
+      const idx = specificPieceId !== null
+        ? state.poolPieces.findIndex(p => p.id === specificPieceId && p.value === 10)
+        : state.poolPieces.findIndex(p => p.value === 10);
+      if (idx === -1) return;
+
+      state.poolPieces.splice(idx, 1);
+      for (let i = 0; i < 10; i++) {
+        state.poolPieces.push({ id: state.nextPieceUid++, value: 1 });
+      }
+      state.selectedPieceId = null;
+      playTone("unpack");
+      renderManipulatives();
+    }
+
+    /* Helper: Deal 1 round (supports both 'sharing' equal deal & 'grouping' pack-one-box) */
+    function autoDealOneRound() {
+      const q = state.currentQ;
+
+      if (q.problemType === "grouping") {
+        // 包含除快捷輔助：自動裝滿 1 個尚未滿 divisor 的藤籃/盒子
+        const remainTotal = state.poolPieces.reduce((s, p) => s + p.value, 0);
+        if (remainTotal < q.divisor) {
+          alert(`剩下的 ${remainTotal} ${q.theme.unit}不足 ${q.divisor} ${q.theme.unit}，不能再裝滿一${q.theme.container}，這些就是餘數囉！`);
+          return;
+        }
+
+        // 找一個目前少於 divisor 的籃子，或新增一個籃子
+        let targetIdx = state.baskets.findIndex(b => b.reduce((s, p) => s + p.value, 0) < q.divisor);
+        if (targetIdx === -1) {
+          state.baskets.push([]);
+          targetIdx = state.baskets.length - 1;
+        }
+
+        let currentInBox = state.baskets[targetIdx].reduce((s, p) => s + p.value, 0);
+        let needed = q.divisor - currentInBox;
+
+        while (needed > 0) {
+          // 若沒有散裝，先拆 1 袋(10)；若無 10 袋，先拆 1 箱(100)
+          let oneIdx = state.poolPieces.findIndex(p => p.value === 1);
+          if (oneIdx === -1) {
+            let tenIdx = state.poolPieces.findIndex(p => p.value === 10);
+            if (tenIdx === -1) {
+              let hunIdx = state.poolPieces.findIndex(p => p.value === 100);
+              if (hunIdx !== -1) {
+                state.poolPieces.splice(hunIdx, 1);
+                for (let k = 0; k < 10; k++) state.poolPieces.push({ id: state.nextPieceUid++, value: 10 });
+              }
+            }
+            tenIdx = state.poolPieces.findIndex(p => p.value === 10);
+            if (tenIdx !== -1) {
+              state.poolPieces.splice(tenIdx, 1);
+              for (let k = 0; k < 10; k++) state.poolPieces.push({ id: state.nextPieceUid++, value: 1 });
+            }
+            oneIdx = state.poolPieces.findIndex(p => p.value === 1);
+          }
+          if (oneIdx === -1) break;
+          const [p] = state.poolPieces.splice(oneIdx, 1);
+          state.baskets[targetIdx].push(p);
+          needed--;
+        }
+
+        playTone("pop");
+        renderManipulatives();
+        return;
+      }
+
+      const numBaskets = q.divisor;
+
+      // 1. Try 100-crates first
+      const hundredsInPool = state.poolPieces.filter(p => p.value === 100);
+      if (hundredsInPool.length >= numBaskets) {
+        for (let b = 0; b < numBaskets; b++) {
+          const idx = state.poolPieces.findIndex(p => p.value === 100);
+          const [piece] = state.poolPieces.splice(idx, 1);
+          state.baskets[b].push(piece);
+        }
+        playTone("pop");
+        renderManipulatives();
+        return;
+      }
+
+      // 2. Try 10-bags next (auto-unpack 100 if needed)
+      let tensInPool = state.poolPieces.filter(p => p.value === 10);
+      if (tensInPool.length < numBaskets && hundredsInPool.length > 0) {
+        const hIdx = state.poolPieces.findIndex(p => p.value === 100);
+        state.poolPieces.splice(hIdx, 1);
+        for (let i = 0; i < 10; i++) state.poolPieces.push({ id: state.nextPieceUid++, value: 10 });
+        tensInPool = state.poolPieces.filter(p => p.value === 10);
+      }
+
+      if (tensInPool.length >= numBaskets) {
+        for (let b = 0; b < numBaskets; b++) {
+          const idx = state.poolPieces.findIndex(p => p.value === 10);
+          const [piece] = state.poolPieces.splice(idx, 1);
+          state.baskets[b].push(piece);
+        }
+        playTone("pop");
+        renderManipulatives();
+        return;
+      }
+
+      // 3. Try 1-loose pieces next (auto-unpack 10 if needed)
+      let onesInPool = state.poolPieces.filter(p => p.value === 1);
+      if (onesInPool.length < numBaskets && tensInPool.length > 0) {
+        const tIdx = state.poolPieces.findIndex(p => p.value === 10);
+        state.poolPieces.splice(tIdx, 1);
+        for (let i = 0; i < 10; i++) state.poolPieces.push({ id: state.nextPieceUid++, value: 1 });
+        onesInPool = state.poolPieces.filter(p => p.value === 1);
+      }
+
+      if (onesInPool.length >= numBaskets) {
+        for (let b = 0; b < numBaskets; b++) {
+          const idx = state.poolPieces.findIndex(p => p.value === 1);
+          const [piece] = state.poolPieces.splice(idx, 1);
+          state.baskets[b].push(piece);
+        }
+        playTone("pop");
+        renderManipulatives();
+      } else {
+        alert(`剩下的 ${onesInPool.length} ${q.theme.unit}不夠每個藤籃再分 1 ${q.theme.unit}了，這些就是「餘數」喔！`);
+      }
+    }
+
+    function renderManipulatives() {
+      const q = state.currentQ;
+      const poolEl = document.getElementById("counterPool");
+      const basketsEl = document.getElementById("basketsGrid");
+
+      poolEl.innerHTML = "";
+      let remainSum = 0;
+      let poolHundreds = 0;
+      let poolTens = 0;
+      let poolOnes = 0;
+
+      state.poolPieces.forEach(piece => {
+        remainSum += piece.value;
+        if (piece.value === 100) poolHundreds++;
+        else if (piece.value === 10) poolTens++;
+        else poolOnes++;
+        poolEl.appendChild(createPieceElement(piece, "pool", -1, q.theme));
+      });
+
+      document.getElementById("poolRemainCount").textContent = remainSum;
+      const parts = [];
+      if (poolHundreds > 0) parts.push(`${poolHundreds} 箱(100)`);
+      parts.push(`${poolTens} 袋(每袋10${q.theme.unit})`);
+      parts.push(`${poolOnes} ${q.theme.unit}散裝`);
+      document.getElementById("supplyBreakdown").textContent = `供應區：${parts.join(" ＋ ")} ＝ 共 ${remainSum} ${q.theme.unit}`;
+
+      const unpackHBtn = document.getElementById("btnUnpackHundred");
+      unpackHBtn.style.display = (q.dividend >= 100 || poolHundreds > 0) ? "inline-flex" : "none";
+      unpackHBtn.disabled = poolHundreds === 0;
+
+      const unpackTBtn = document.getElementById("btnUnpackTen");
+      unpackTBtn.disabled = poolTens === 0;
+
+      // Render Brown Wicker Baskets
+      basketsEl.innerHTML = "";
+      const basketTotals = [];
+
+      state.baskets.forEach((items, bIdx) => {
+        const sum = items.reduce((acc, p) => acc + p.value, 0);
+        const bHundreds = items.filter(p => p.value === 100).length;
+        const bTens = items.filter(p => p.value === 10).length;
+        const bOnes = items.filter(p => p.value === 1).length;
+        basketTotals.push(sum);
+
+        const wrap = document.createElement("div");
+        wrap.className = "wicker-basket-wrap";
+        wrap.dataset.basketIdx = bIdx;
+
+        wrap.ondragover = handleDragOver;
+        wrap.ondragenter = (e) => { e.preventDefault(); wrap.classList.add("drag-over"); };
+        wrap.ondragleave = () => wrap.classList.remove("drag-over");
+        wrap.ondrop = (e) => {
+          wrap.classList.remove("drag-over");
+          handleDropToBasket(e, bIdx);
+        };
+
+        wrap.onclick = (e) => {
+          if (e.target.closest(".piece")) return;
+          if (state.selectedPieceId !== null) {
+            movePieceById(state.selectedPieceId, "basket", bIdx);
+          }
+        };
+
+        let detailParts = [];
+        if (bHundreds > 0) detailParts.push(`${bHundreds}箱(100)`);
+        if (bTens > 0) detailParts.push(`${bTens}袋(10)`);
+        if (bOnes > 0) detailParts.push(`${bOnes}散裝`);
+        const containerUnit = q.problemType === "grouping" ? q.theme.container : "籃";
+        const detailText = sum === 0 ? `空${containerUnit}（拖入${q.theme.name}）` : detailParts.join(" + ");
+
+        wrap.innerHTML = `
+          <div class="wicker-handle"></div>
+          <div class="wicker-rim"></div>
+          <div class="wicker-body">
+            <div class="basket-label-bar">
+              <span class="basket-title-tag">第 ${bIdx + 1} ${containerUnit}</span>
+              <span class="basket-count-tag">${sum} ${q.theme.unit}</span>
+            </div>
+            <div class="basket-liner"></div>
+            <div class="basket-sub-detail">${detailText}</div>
+          </div>
+        `;
+
+        const linerBox = wrap.querySelector(".basket-liner");
+        items.forEach(piece => {
+          linerBox.appendChild(createPieceElement(piece, "basket", bIdx, q.theme));
+        });
+
+        basketsEl.appendChild(wrap);
+      });
+
+      const statusBadge = document.getElementById("equalStatusBadge");
+      const canStillShare = remainSum >= q.divisor;
+
+      if (q.problemType === "grouping") {
+        // 包含除狀態提示：檢查已裝入的藤籃是否每籃剛好為 q.divisor
+        const nonEmptyTotals = basketTotals.filter(v => v > 0);
+        const allFull = nonEmptyTotals.length > 0 && nonEmptyTotals.every(v => v === q.divisor);
+        const overFull = nonEmptyTotals.some(v => v > q.divisor);
+
+        if (overFull) {
+          statusBadge.textContent = `⚠️ 有${q.theme.container}超過 ${q.divisor} ${q.theme.unit}囉！`;
+          statusBadge.style.background = "#ffebee";
+          statusBadge.style.color = "#c62828";
+        } else if (allFull && !canStillShare) {
+          statusBadge.textContent = `✅ 共裝滿 ${nonEmptyTotals.length} ${q.theme.container}（每${q.theme.container} ${q.divisor} ${q.theme.unit}），餘 ${remainSum} ${q.theme.unit}！`;
+          statusBadge.style.background = "#e8f5e9";
+          statusBadge.style.color = "#2e7d32";
+        } else {
+          statusBadge.textContent = `📦 已裝滿 ${basketTotals.filter(v => v === q.divisor).length} ${q.theme.container}（目標每${q.theme.container} ${q.divisor} ${q.theme.unit}）`;
+          statusBadge.style.background = "#fff3e0";
+          statusBadge.style.color = "#ef6c00";
+        }
+      } else {
+        const allEqual = basketTotals.length > 0 && basketTotals.every(v => v === basketTotals[0] && v > 0);
+        if (allEqual && !canStillShare) {
+          statusBadge.textContent = `✅ 每籃平分 ${basketTotals[0]} ${q.theme.unit}，餘 ${remainSum} ${q.theme.unit}！`;
+          statusBadge.style.background = "#e8f5e9";
+          statusBadge.style.color = "#2e7d32";
+        } else if (allEqual && canStillShare) {
+          statusBadge.textContent = `👍 目前每籃 ${basketTotals[0]} ${q.theme.unit}，還可繼續分！`;
+          statusBadge.style.background = "#e3f2fd";
+          statusBadge.style.color = "#1565c0";
+        } else {
+          statusBadge.textContent = "⚖️ 請繼續平均分配到每個藤籃";
+          statusBadge.style.background = "#fff3e0";
+          statusBadge.style.color = "#ef6c00";
+        }
+      }
+    }
+
+    function createPieceElement(piece, location, basketIdx, theme) {
+      const el = document.createElement("div");
+      el.className = piece.value === 100
+        ? "piece piece-hundred"
+        : piece.value === 10
+        ? "piece piece-ten"
+        : "piece piece-one";
+      el.draggable = true;
+      el.dataset.pieceId = piece.id;
+
+      if (state.selectedPieceId === piece.id) {
+        el.style.outline = "3px solid #ff5722";
+        el.style.transform = "scale(1.08)";
+      }
+
+      if (piece.value === 100) {
+        const unpackBtnHtml = location === "pool"
+          ? `<button type="button" class="unpack-mini-btn" title="拆成10袋">拆箱</button>`
+          : "";
+        el.innerHTML = `
+          <div class="hundred-visual">${theme.emoji} × 100</div>
+          <div class="lot-label-bar">
+            <span class="hundred-tag">100${theme.unit}一箱</span>
+            ${unpackBtnHtml}
+          </div>
+        `;
+        if (location === "pool") {
+          el.querySelector(".unpack-mini-btn").onclick = (ev) => {
+            ev.stopPropagation();
+            unpackOneHundred(piece.id);
+          };
+        }
+      } else if (piece.value === 10) {
+        const minis = Array(10).fill(`<span>${theme.emoji}</span>`).join("");
+        const unpackBtnHtml = location === "pool"
+          ? `<button type="button" class="unpack-mini-btn" title="拆成10個散裝">拆開</button>`
+          : "";
+        el.innerHTML = `
+          <div class="ten-mini-grid">${minis}</div>
+          <div class="lot-label-bar">
+            <span class="ten-tag">10${theme.unit}一袋</span>
+            ${unpackBtnHtml}
+          </div>
+        `;
+        if (location === "pool") {
+          el.querySelector(".unpack-mini-btn").onclick = (ev) => {
+            ev.stopPropagation();
+            unpackOneTen(piece.id);
+          };
+        }
+      } else {
+        el.textContent = theme.emoji;
+        el.title = `1 ${theme.unit}散裝${theme.name}`;
+      }
+
+      el.ondragstart = (e) => {
+        e.dataTransfer.setData("text/plain", String(piece.id));
+        state.selectedPieceId = piece.id;
+      };
+
+      el.onclick = (e) => {
+        if (e.target.closest(".unpack-mini-btn")) return;
+        e.stopPropagation();
+        if (location === "basket") {
+          movePieceById(piece.id, "pool", -1);
+        } else {
+          state.selectedPieceId = (state.selectedPieceId === piece.id) ? null : piece.id;
+          playTone("pop");
+          renderManipulatives();
+        }
+      };
+
+      attachTouchDrag(el, piece);
+      return el;
+    }
+
+    function attachTouchDrag(el, piece) {
+      const ghost = document.getElementById("dragGhost");
+      let isDragging = false;
+      let startX = 0, startY = 0;
+
+      el.addEventListener("touchstart", (e) => {
+        if (e.touches.length !== 1 || e.target.closest(".unpack-mini-btn")) return;
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+        isDragging = false;
+      }, { passive: true });
+
+      el.addEventListener("touchmove", (e) => {
+        const t = e.touches[0];
+        if (!isDragging && (Math.abs(t.clientX - startX) > 10 || Math.abs(t.clientY - startY) > 10)) {
+          isDragging = true;
+          ghost.innerHTML = el.outerHTML;
+          ghost.style.display = "block";
+        }
+        if (isDragging) {
+          e.preventDefault();
+          ghost.style.left = t.clientX + "px";
+          ghost.style.top = t.clientY + "px";
+        }
+      }, { passive: false });
+
+      el.addEventListener("touchend", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        ghost.style.display = "none";
+        const t = e.changedTouches[0];
+        const target = document.elementFromPoint(t.clientX, t.clientY);
+        if (!target) return;
+
+        const basketEl = target.closest(".wicker-basket-wrap");
+        if (basketEl) {
+          movePieceById(piece.id, "basket", parseInt(basketEl.dataset.basketIdx, 10));
+        } else if (target.closest("#counterPool")) {
+          movePieceById(piece.id, "pool", -1);
+        }
+      });
+    }
+
+    function handleDragOver(e) { e.preventDefault(); }
+
+    function handleDropToBasket(e, basketIdx) {
+      e.preventDefault();
+      const idStr = e.dataTransfer.getData("text/plain");
+      const pieceId = idStr ? parseInt(idStr, 10) : state.selectedPieceId;
+      if (pieceId) movePieceById(pieceId, "basket", basketIdx);
+    }
+
+    function handleDropToPool(e) {
+      e.preventDefault();
+      const idStr = e.dataTransfer.getData("text/plain");
+      const pieceId = idStr ? parseInt(idStr, 10) : state.selectedPieceId;
+      if (pieceId) movePieceById(pieceId, "pool", -1);
+    }
+
+    function movePieceById(pieceId, targetType, basketIdx) {
+      let foundPiece = null;
+      const pIdx = state.poolPieces.findIndex(p => p.id === pieceId);
+      if (pIdx !== -1) {
+        [foundPiece] = state.poolPieces.splice(pIdx, 1);
+      } else {
+        for (let b = 0; b < state.baskets.length; b++) {
+          const bItemIdx = state.baskets[b].findIndex(p => p.id === pieceId);
+          if (bItemIdx !== -1) {
+            [foundPiece] = state.baskets[b].splice(bItemIdx, 1);
+            break;
+          }
+        }
+      }
+      if (!foundPiece) return;
+
+      if (targetType === "basket" && basketIdx >= 0) {
+        state.baskets[basketIdx].push(foundPiece);
+      } else {
+        state.poolPieces.push(foundPiece);
+      }
+
+      state.selectedPieceId = null;
+      playTone("pop");
+      renderManipulatives();
+    }
+
+    /* =========================================================================
+       3. ANSWER EVALUATION & 5-QUESTION ROUND SUMMARY
+       ========================================================================= */
+    function submitAnswer() {
+      const q = state.currentQ;
+      const userQStr = document.getElementById("inputQuotient").value.trim();
+      const userRStr = document.getElementById("inputRemainder").value.trim();
+
+      if (userQStr === "") {
+        alert("請先在「每個藤籃分到」的方格內輸入數字喔！");
+        document.getElementById("inputQuotient").focus();
+        return;
+      }
+
+      const userQ = parseInt(userQStr, 10);
+      const userR = userRStr === "" ? 0 : parseInt(userRStr, 10);
+
+      if (isNaN(userR)) {
+        alert("請輸入正確的餘數喔！（剛好分完請輸入 0）");
+        return;
+      }
+
+      const isCorrect = (userQ === q.quotient && userR === q.remainder);
+
+      const overlay = document.getElementById("feedbackOverlay");
+      const fbEmoji = document.getElementById("fbEmoji");
+      const fbTitle = document.getElementById("fbTitle");
+      const fbDetail = document.getElementById("fbDetail");
+      const fbNextBtn = document.getElementById("fbNextBtn");
+
+      const ansText = q.remainder > 0
+        ? `${q.dividend} ÷ ${q.divisor} = <strong>${q.quotient} …… ${q.remainder}</strong>`
+        : `${q.dividend} ÷ ${q.divisor} = <strong>${q.quotient}</strong>`;
+
+      const explainText = q.problemType === "grouping"
+        ? `現有 ${q.dividend} ${q.theme.unit}${q.theme.name}，每 ${q.divisor} ${q.theme.unit}一${q.theme.container}，共可分成 <strong>${q.quotient}</strong> ${q.theme.container}，還餘 <strong>${q.remainder}</strong> ${q.theme.unit}。`
+        : `把 ${q.dividend} ${q.theme.unit}${q.theme.name}平均分進 ${q.divisor} 個藤籃，每個藤籃分到 <strong>${q.quotient}</strong> ${q.theme.unit}，還餘 <strong>${q.remainder}</strong> ${q.theme.unit}。`;
+
+      if (isCorrect) {
+        state.roundCorrect++;
+        state.totalScore += 20;
+        updateHudCounters();
+        playTone("correct");
+
+        fbEmoji.textContent = "🎉🌟";
+        fbTitle.textContent = "太棒了！完全正確！";
+        fbTitle.style.color = "#2e7d32";
+
+        fbDetail.innerHTML = `
+          ${explainText}<br>
+          除法橫式：${ansText}（本回合已答對 <strong>${state.roundCorrect} / ${state.qIndexInRound + 1}</strong> 題）
+        `;
+      } else {
+        playTone("wrong");
+        fbEmoji.textContent = "💪🧺";
+        fbTitle.textContent = "差一點點，一起看看分法！";
+        fbTitle.style.color = "#d84315";
+
+        fbDetail.innerHTML = `
+          ${explainText}<br>
+          正確橫式：${ansText}
+        `;
+      }
+
+      fbNextBtn.textContent = (state.qIndexInRound === QUESTIONS_PER_ROUND - 1)
+        ? "🏆 查看本 5 題回合評級與獎狀"
+        : "下一題 ➡️";
+      overlay.classList.add("show");
+    }
+
+    function nextQuestion() {
+      document.getElementById("feedbackOverlay").classList.remove("show");
+
+      if (state.qIndexInRound + 1 < QUESTIONS_PER_ROUND) {
+        state.qIndexInRound++;
+        if (state.questionMode === "manual") {
+          switchQuestionMode("auto");
+        } else {
+          loadQuestionObj(state.roundQuestions[state.qIndexInRound]);
+        }
+      } else {
+        finishFiveQuestionRound();
+      }
+    }
+
+    function quitToHome() {
+      if (confirm("確定要離開目前的練習返回主畫面嗎？")) {
+        showScreen("screen-login");
+      }
+    }
+
+    /* Evaluate 5-Question Round Rank:
+       - 王者 (King): 2 consecutive rounds of 5/5 perfect scores
+       - 鑽石 (Diamond): 5/5 correct
+       - 黃金 (Gold): 4/5 correct
+       - 青銅 (Bronze): 3/5 correct (or encouraging badge if < 3)
+    */
+    function computeRoundRank(correctCount, consecutivePerfect) {
+      if (correctCount === 5 && consecutivePerfect >= 2) {
+        return {
+          name: "王者",
+          icon: "👑",
+          color: "#6a1b9a",
+          desc: "連續 2 個回合全對 5 題！登峰造極的除法王者！"
+        };
+      } else if (correctCount === 5) {
+        return {
+          name: "鑽石",
+          icon: "💎",
+          color: "#0277bd",
+          desc: "本回合 5 題全對！再連續 1 次全對即可晉升【王者】！"
+        };
+      } else if (correctCount === 4) {
+        return {
+          name: "黃金",
+          icon: "🥇",
+          color: "#ef6c00",
+          desc: "本回合答對 4 題，實力非凡的黃金除法高手！"
+        };
+      } else if (correctCount === 3) {
+        return {
+          name: "青銅",
+          icon: "🥉",
+          color: "#5d4037",
+          desc: "本回合答對 3 題，順利獲得青銅獎章，繼續衝刺！"
+        };
+      } else {
+        return {
+          name: "努力新星",
+          icon: "🌱",
+          color: "#2e7d32",
+          desc: "善用啡色藤籃與拆袋分物，下一回合一定能衝上青銅與黃金！"
+        };
+      }
+    }
+
+    function finishFiveQuestionRound() {
+      playTone("fanfare");
+
+      if (state.roundCorrect === 5) {
+        state.consecutivePerfectRounds++;
+      } else {
+        state.consecutivePerfectRounds = 0;
+      }
+
+      const rank = computeRoundRank(state.roundCorrect, state.consecutivePerfectRounds);
+      const accuracyPct = Math.round((state.roundCorrect / QUESTIONS_PER_ROUND) * 100);
+
+      const record = {
+        id: Date.now(),
+        studentClass: state.studentClass,
+        studentNo: state.studentNo,
+        level: state.level,
+        roundNo: state.roundNumber,
+        correctCount: state.roundCorrect,
+        totalQuestions: QUESTIONS_PER_ROUND,
+        accuracyPct,
+        consecutivePerfect: state.consecutivePerfectRounds,
+        rank: rank.name,
+        rankIcon: rank.icon,
+        timestamp: new Date().toLocaleString("zh-HK", { hour12: false })
+      };
+
+      saveRecord(record);
+
+      document.getElementById("roundBadgeHero").textContent = rank.icon;
+      document.getElementById("roundSummaryTitle").textContent =
+        `第 ${state.roundNumber} 回合（5 題）總結：獲得【${rank.name}級】！`;
+      document.getElementById("roundSummaryDetail").textContent =
+        `本回合答對 ${state.roundCorrect} / 5 題（答對率 ${accuracyPct}%）｜ ${rank.desc}`;
+
+      drawCertificate(record, rank);
+      showScreen("screen-complete");
+    }
+
+    function continueNextRound() {
+      state.roundNumber++;
+      playTone("pop");
+      startNewRound();
+      showScreen("screen-game");
+    }
+
+    function restartFromLogin() {
+      playTone("pop");
+      showScreen("screen-login");
+    }
+
+    /* =========================================================================
+       4. ENCOURAGEMENT CERTIFICATE CANVAS RENDERER
+       ========================================================================= */
+    function drawCertificate(record, rank) {
+      const canvas = document.getElementById("certCanvas");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+
+      const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, "#fffde7");
+      bgGrad.addColorStop(0.5, "#ffffff");
+      bgGrad.addColorStop(1, "#e0f7fa");
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "#ffb300";
+      ctx.lineWidth = 14;
+      ctx.strokeRect(18, 18, w - 36, h - 36);
+
+      ctx.strokeStyle = "#8d5524";
+      ctx.lineWidth = 4;
+      ctx.setLineDash([12, 8]);
+      ctx.strokeRect(34, 34, w - 68, h - 68);
+      ctx.setLineDash([]);
+
+      ctx.font = "36px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("🌟", 64, 76);
+      ctx.fillText("🌟", w - 64, 76);
+      ctx.fillText("🧺", 64, h - 48);
+      ctx.fillText("🧺", w - 64, h - 48);
+
+      ctx.fillStyle = "#d84315";
+      ctx.font = "900 40px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText("🏆 小三數學：除法分物小達人獎狀 🏆", w / 2, 108);
+
+      ctx.fillStyle = "#5c3310";
+      ctx.font = "bold 20px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText("學習主題：兩位數／三位數除以一位數（啡色藤籃分物挑戰）", w / 2, 148);
+
+      ctx.fillStyle = "#37474f";
+      ctx.font = "bold 24px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText("茲頒發予", w / 2, 202);
+
+      ctx.fillStyle = "#4a148c";
+      ctx.font = "900 38px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText(`${record.studentClass} 班  第 ${record.studentNo} 號 同學`, w / 2, 254);
+
+      ctx.strokeStyle = "#ce93d8";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(w / 2 - 210, 268);
+      ctx.lineTo(w / 2 + 210, 268);
+      ctx.stroke();
+
+      ctx.fillStyle = "#fff8e1";
+      roundRect(ctx, 105, 290, w - 210, 128, 20, true, true, "#ffca28");
+
+      ctx.fillStyle = "#37474f";
+      ctx.font = "bold 22px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText(`挑戰程度：【${record.level}】   ｜   第 ${record.roundNo} 回合答對：${record.correctCount} / ${record.totalQuestions} 題（${record.accuracyPct}%）`, w / 2, 334);
+
+      ctx.fillStyle = rank.color;
+      ctx.font = "900 30px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText(`榮譽評級：${rank.icon} ${rank.name}級`, w / 2, 386);
+
+      ctx.fillStyle = "#455a64";
+      ctx.font = "bold 19px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText(`「${rank.desc}」`, w / 2, 456);
+
+      ctx.fillStyle = "#78909c";
+      ctx.font = "16px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText(`頒發日期：${record.timestamp.split(" ")[0]}`, 220, 505);
+
+      ctx.fillStyle = "#e65100";
+      ctx.font = "bold 18px 'PingFang HK', 'Microsoft JhengHei', sans-serif";
+      ctx.fillText("小學數學互動樂園 印頒 🎓", w - 230, 505);
+    }
+
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke, strokeColor) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) {
+        ctx.strokeStyle = strokeColor || "#000";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+    }
+
+    function downloadCertificate() {
+      const canvas = document.getElementById("certCanvas");
+      const link = document.createElement("a");
+      link.download = `小三除法分物獎狀_${state.studentClass}_${state.studentNo}號.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+
+    /* =========================================================================
+       5. PASSWORD-LOCKED TEACHER DASHBOARD (PIN: 9898)
+       ========================================================================= */
+    let previousScreenId = "screen-login";
+
+    function openTeacherAuth() {
+      const active = document.querySelector(".screen.active");
+      if (active && active.id !== "screen-teacher") {
+        previousScreenId = active.id;
+      }
+      document.getElementById("teacherPinInput").value = "";
+      document.getElementById("pinErrorMsg").textContent = "";
+      document.getElementById("pinModal").classList.add("show");
+      setTimeout(() => document.getElementById("teacherPinInput").focus(), 100);
+    }
+
+    function appendPin(digit) {
+      const inp = document.getElementById("teacherPinInput");
+      if (inp.value.length < 6) {
+        inp.value += digit;
+        playTone("pop");
+      }
+      if (inp.value.length === 4) {
+        verifyTeacherPin();
+      }
+    }
+
+    function clearPin() {
+      document.getElementById("teacherPinInput").value = "";
+      document.getElementById("pinErrorMsg").textContent = "";
+      playTone("pop");
+    }
+
+    function closePinModal() {
+      document.getElementById("pinModal").classList.remove("show");
+    }
+
+    function verifyTeacherPin() {
+      const pin = document.getElementById("teacherPinInput").value.trim();
+      if (pin === TEACHER_PIN) {
+        closePinModal();
+        playTone("correct");
+        renderTeacherDashboard();
+        showScreen("screen-teacher");
+      } else {
+        playTone("wrong");
+        document.getElementById("pinErrorMsg").textContent = "❌ 密碼不正確，請重新輸入！";
+        document.getElementById("teacherPinInput").value = "";
+      }
+    }
+
+    function lockAndExitTeacher() {
+      playTone("pop");
+      showScreen(previousScreenId || "screen-login");
+    }
+
+    function loadRecords() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveRecord(rec) {
+      const all = loadRecords();
+      all.unshift(rec);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+    }
+
+    function seedSampleRecords() {
+      const samples = [
+        { id: 301, studentClass: "3A", studentNo: "5", level: "進階", roundNo: 2, correctCount: 5, totalQuestions: 5, accuracyPct: 100, consecutivePerfect: 2, rank: "王者", rankIcon: "👑", timestamp: "2026/11/22 14:15" },
+        { id: 302, studentClass: "3A", studentNo: "11", level: "中等", roundNo: 1, correctCount: 5, totalQuestions: 5, accuracyPct: 100, consecutivePerfect: 1, rank: "鑽石", rankIcon: "💎", timestamp: "2026/11/22 14:18" },
+        { id: 303, studentClass: "3B", studentNo: "7", level: "基礎", roundNo: 1, correctCount: 4, totalQuestions: 5, accuracyPct: 80, consecutivePerfect: 0, rank: "黃金", rankIcon: "🥇", timestamp: "2026/11/22 14:21" },
+        { id: 304, studentClass: "3B", studentNo: "18", level: "基礎", roundNo: 1, correctCount: 3, totalQuestions: 5, accuracyPct: 60, consecutivePerfect: 0, rank: "青銅", rankIcon: "🥉", timestamp: "2026/11/22 14:25" }
+      ];
+      const existing = loadRecords();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...samples, ...existing]));
+      playTone("pop");
+      renderTeacherDashboard();
+    }
+
+    function clearAllRecords() {
+      if (confirm("確定要清空所有學生的練習紀錄嗎？此操作無法復原。")) {
+        localStorage.removeItem(STORAGE_KEY);
+        renderTeacherDashboard();
+      }
+    }
+
+    function renderTeacherDashboard() {
+      const all = loadRecords();
+      const clsFilter = document.getElementById("filterClass").value;
+      const lvFilter = document.getElementById("filterLevel").value;
+
+      const filtered = all.filter(r => {
+        const okCls = clsFilter === "ALL" || r.studentClass === clsFilter;
+        const okLv = lvFilter === "ALL" || r.level === lvFilter;
+        return okCls && okLv;
+      });
+
+      const totalRounds = filtered.length;
+      const avgAcc = totalRounds ? Math.round(filtered.reduce((s, r) => s + r.accuracyPct, 0) / totalRounds) : 0;
+      const diamondOrKing = filtered.filter(r => r.rank === "鑽石" || r.rank === "王者").length;
+      const passRate = totalRounds ? Math.round((filtered.filter(r => r.correctCount >= 3).length / totalRounds) * 100) : 0;
+
+      document.getElementById("teacherStatsGrid").innerHTML = `
+        <div class="stat-box">
+          <div class="num">${totalRounds}</div>
+          <div class="lbl">完成 5 題回合數</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" style="color:#2e7d32;">${avgAcc}%</div>
+          <div class="lbl">平均答對率</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" style="color:#0277bd;">${diamondOrKing} 次</div>
+          <div class="lbl">滿分回合 (鑽石/王者)</div>
+        </div>
+        <div class="stat-box">
+          <div class="num" style="color:#6a1b9a;">${passRate}%</div>
+          <div class="lbl">達標率 (≥3題青銅)</div>
+        </div>
+      `;
+
+      const counts = { "王者": 0, "鑽石": 0, "黃金": 0, "青銅": 0 };
+      filtered.forEach(r => { if (counts[r.rank] !== undefined) counts[r.rank]++; });
+
+      document.getElementById("rankBreakdownBar").innerHTML = `
+        <div style="font-weight:800; font-size:0.86rem; margin-bottom:8px; color:#37474f;">📊 榮譽評級人數分佈：</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <span class="rank-chip" style="background:#f3e5f5; color:#6a1b9a;">👑 王者 (連2次5/5)：<strong>${counts["王者"]} 次</strong></span>
+          <span class="rank-chip" style="background:#e1f5fe; color:#0277bd;">💎 鑽石 (5/5題)：<strong>${counts["鑽石"]} 次</strong></span>
+          <span class="rank-chip" style="background:#fff8e1; color:#ef6c00;">🥇 黃金 (4/5題)：<strong>${counts["黃金"]} 次</strong></span>
+          <span class="rank-chip" style="background:#efebe9; color:#5d4037;">🥉 青銅 (3/5題)：<strong>${counts["青銅"]} 次</strong></span>
+        </div>
+      `;
+
+      const tbody = document.getElementById("teacherTableBody");
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:24px; color:#90a4ae;">暫無符合條件的學生練習紀錄，可點擊上方「載入模擬班級數據」預覽效果。</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => `
+        <tr>
+          <td><strong>${r.studentClass} 班</strong></td>
+          <td>${r.studentNo} 號</td>
+          <td>${r.level} (第${r.roundNo || 1}回合)</td>
+          <td><strong>${r.correctCount} / ${r.totalQuestions} 題</strong></td>
+          <td>${r.accuracyPct}%</td>
+          <td>${r.consecutivePerfect || 0} 次</td>
+          <td><strong>${r.rankIcon || ""} ${r.rank}</strong></td>
+          <td style="color:#78909c; font-size:0.8rem;">${r.timestamp}</td>
+        </tr>
+      `).join("");
+    }
+
+    function exportCsv() {
+      const all = loadRecords();
+      if (all.length === 0) {
+        alert("目前沒有學生數據可匯出！");
+        return;
+      }
+      const headers = ["班別", "學號", "難度", "回合", "答對題數", "總題數", "答對率(%)", "連續全對回合", "榮譽評級", "完成時間"];
+      const rows = all.map(r => [
+        r.studentClass, r.studentNo, r.level, r.roundNo || 1, r.correctCount, r.totalQuestions, r.accuracyPct, r.consecutivePerfect || 0, r.rank, `"${r.timestamp}"`
+      ]);
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `小三數學_除法分物5題成績表_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
